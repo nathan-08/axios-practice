@@ -1,6 +1,6 @@
 .status {
   height: 20px;
-  background: #eee;
+  background: #f7f7f7;
   padding: 0 1rem;
   font-family: monospace;
   line-height: 1.7;
@@ -14,4 +14,17 @@
 }
 .error {
   color: red;
+}
+
+.flash {
+    animation: flash .8s linear;
+}
+
+@keyframes flash {
+    0% {
+        background: #f7f7;
+    }
+    100% {
+        background: #f7f7f7f7;
+    }
 }

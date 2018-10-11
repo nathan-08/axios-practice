@@ -3,14 +3,14 @@
   width: 100%;
   min-width: 300px;
   overflow: hidden;
-  background: rgb(244, 255, 255);;
+  background: floralwhite;
   font-family: 'Rubik', sans-serif;
   color: rgb(13, 19, 35);
 }
 
 DIV.CodeMirror {
   height: 100%;
-  padding: 1rem;
+  padding: 0 1rem 1rem 0;
   padding-left: 0;
   background: inherit;
 }

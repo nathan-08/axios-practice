@@ -39,6 +39,17 @@ export default class App extends Component {
     document.body.removeEventListener("keyup", this.onCtrlEnter);
   }
 
+  componentDidUpdate ( prevProps, prevState, snapshot ) {
+    if ( this.state.status.text !== prevState.status.text && this.state.status.text !== '...' ) {
+      console.log('status changed')
+      const statusBar = document.querySelector('.status')
+      statusBar.classList.add('flash');
+      setTimeout(()=>{
+        statusBar.classList.remove('flash');
+      }, 900)
+    }
+  }
+
   create = () => {
     this.resetStatusMessage();
     try {
