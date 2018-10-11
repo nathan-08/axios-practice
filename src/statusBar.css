@@ -1,0 +1,17 @@
+.status {
+  height: 20px;
+  background: #eee;
+  padding: 0 1rem;
+  font-family: monospace;
+  line-height: 1.7;
+}
+
+.normal {
+  color: inherit;
+}
+.success {
+  color: green;
+}
+.error {
+  color: red;
+}

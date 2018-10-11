@@ -1,51 +1,40 @@
 .app--component {
   height: 100vh;
   width: 100%;
+  min-width: 300px;
   overflow: hidden;
-  background: slategrey;
+  background: rgb(244, 255, 255);;
   font-family: 'Rubik', sans-serif;
-  color: darkslategrey;
+  color: rgb(13, 19, 35);
 }
+
+DIV.CodeMirror {
+  height: 100%;
+  padding: 1rem;
+  padding-left: 0;
+  background: inherit;
+}
+
 HEADER {
   height: 160px;
-  background: floralwhite;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 1rem;
+  padding-bottom: .2rem;
 }
-
+.header-instructions P {
+  font-size: .8rem;
+  margin-top: .3rem;
+  width: 400px;
+}
 MAIN {
-  height: calc(100vh - 160px);
+  height: calc(100vh - 180px);
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
-
-.button {
-  padding: .5rem 2rem;
-  border: 1px solid slategrey;
-  cursor: pointer;
-  user-select: none;
-  display: inline-block;
-}
-.light-color {
-  color: floralwhite;
-  border-color: floralwhite;
-}
-.dark-color {
-  color: darkslategrey;
-  border-color: slategrey;
-}
-
-.button--container {
-  display: flex;
-}
-.button--container .button{
-  margin-right: 1rem;
-}
-
 .textarea {
   height: 100%;
   width: 50%;
@@ -58,12 +47,6 @@ MAIN {
   background:rgb(13, 19, 35);
   color: rgb(244, 255, 255);
   white-space: pre;
+  padding: 1rem;
+  overflow: auto;
 }
-
-.status {
-  height: 20px;
-  background: #eee;
-  padding: 0 1rem;
-  color: darkslategrey;
-}
-

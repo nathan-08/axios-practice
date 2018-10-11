@@ -1,87 +1,134 @@
-import React, { Component } from 'react';
-import './App.css';
-import axios from 'axios';
+import React, { Component } from "react";
+import "./App.css";
+import axios from "axios";
+import "codemirror/lib/codemirror.css";
 
-class App extends Component {
+import "./button.css";
+import "./statusBar.css";
+import Main from "./components/Main/Main";
+import Header from "./components/Header/Header";
+
+export default class App extends Component {
   constructor() {
     super();
-    this.state={
-      userInput: '',
-      status: '...',
+    this.state = {
+      userInput: "",
+      status: { text: "...", class: "normal" },
       json: {}
-    }
+    };
+    this.onCtrlEnter = e => {
+      if (e.ctrlKey && e.key === "Enter") {
+        this.create();
+      }
+    };
+    this.resetStatusMessage = () => {
+      this.setState({
+        status: {
+          text: "...",
+          class: "normal"
+        }
+      });
+    };
   }
-  updateUserInput( e ) {
-    this.setState({ userInput: e.target.value })
-  }
-  create () {
-    this.setState({ status: '...' })
-    let json;
-    try {
-      json = JSON.parse(this.state.userInput)
-    }
-    catch (error) {
-      return this.setState({ status: 'invalid JSON format' })
-    }
-    
-    axios.post('/api/create', json)
-         .then( res=> this.setState({ status: `status: ${res.status} ${res.statusText}` }))
-    
 
+  componentDidMount() {
+    document.body.addEventListener("keyup", this.onCtrlEnter);
   }
-  read () {
-    this.setState({ status: '...' })
-    axios.get('/api/read')
-         .then( res=>{
-            this.setState({
-              json: res.data,
-              status: `status: ${res.status} ${res.statusText}`
-            })
-         })
+
+  componentWillUnmount() {
+    document.body.removeEventListener("keyup", this.onCtrlEnter);
   }
-  update () {
-    this.setState({ status: '...' })
-    let json;
+
+  create = () => {
+    this.resetStatusMessage();
     try {
-      json = JSON.parse(this.state.userInput)
+      let json = JSON.parse(this.state.userInput);
+      return axios.post("/api/create", json).then(res => {
+        this.setState({
+          status: {
+            text: `Status: ${res.statusText} ${res.status}`,
+            class: "normal"
+          }
+        });
+      });
+    } catch (err) {
+      return this.setState({
+        status: {
+          text: "Syntax Error: " + err.message,
+          class: "error"
+        }
+      });
     }
-    catch (error) {
-      return this.setState({ status: 'invalid JSON format' })
+  };
+
+  read = () => {
+    this.resetStatusMessage();
+    axios.get("/api/read").then(res => {
+      this.setState({
+        json: res.data,
+        status: {
+          text: `Status: ${res.statusText} ${res.status}`,
+          class: "normal"
+        }
+      });
+    });
+  };
+
+  update = () => {
+    this.resetStatusMessage();
+    try {
+      let json = JSON.parse(this.state.userInput);
+      return axios.put("/api/update", json).then(res => {
+        this.setState({
+          status: {
+            text: `Status: ${res.statusText} ${res.status}`,
+            class: "normal"
+          }
+        });
+      });
+    } catch (err) {
+      return this.setState({
+        status: {
+          text: "Syntax Error: " + err.message,
+          class: "error"
+        }
+      });
     }
-    axios.put('/api/update', json)
-         .then( res=> this.setState({ status: `status: ${res.status} ${res.statusText}` }))
-  }
-  delete () {
-    this.setState({ status: '...' })
-    axios.delete('/api/delete')
-         .then( res=> this.setState({ status: `status: ${res.status} ${res.statusText}` }))
-  }
+  };
+
+  delete = () => {
+    this.resetStatusMessage();
+    axios.delete("/api/delete").then(res => {
+      this.setState({
+        status: {
+          text: `Status: ${res.statusText} ${res.status}`,
+          class: "normal"
+        }
+      });
+    });
+  };
+
   render() {
     return (
       <div className="app--component">
-        <header>
-          <h3> Axios Practice </h3>
-          <div className="button--container">
-            <div className="button dark-color" onClick={this.create.bind(this)}> create </div>
-            <div className="button dark-color" onClick={this.read.bind(this)}> read </div>
-            <div className="button dark-color" onClick={this.update.bind(this)}> update </div>
-            <div className="button dark-color" onClick={this.delete.bind(this)}> delete </div>
-          </div>
-        </header>
-        <section className="status"> { this.state.status }
-        </section>
-        <main>
-          <textarea className="textarea" value={this.state.userInput} onChange={this.updateUserInput.bind(this)}></textarea>
+        <Header
+          create={this.create}
+          read={this.read}
+          update={this.update}
+          delete={this.delete}
+          statusText={this.state.status.text}
+          statusClass={this.state.status.class}
+        />
 
-          <div className="json--container">
-
-            <code>{ JSON.stringify(this.state.json, null, 4) }</code>
-
-          </div>
-        </main>
+        <Main
+          json={this.state.json}
+          onTextChange={userInput => {
+            this.setState({
+              userInput
+            });
+          }}
+        />
       </div>
     );
   }
 }
-
-export default App;

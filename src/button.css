@@ -1,0 +1,30 @@
+.light-color {
+  color: floralwhite;
+  border-color: floralwhite;
+  background: slategrey;
+}
+.dark-color {
+  color: rgb(13, 19, 35);
+  border-color: slategrey;
+}
+
+.button--container {
+  display: flex;
+  min-width: 300px;
+}
+.button--container .button {
+  margin-right: 1rem;
+}
+.button--container .button:last-child {
+  margin: 0;
+}
+
+.button {
+    padding: .5rem 0;
+    width: 120px;
+    text-align: center;
+    border: 1px solid slategrey;
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+  }
