@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
 import "codemirror/lib/codemirror.css";
+import debounce from 'lodash.debounce';
 
 import "./button.css";
 import "./statusBar.css";
@@ -41,12 +42,16 @@ export default class App extends Component {
 
   componentDidUpdate ( prevProps, prevState, snapshot ) {
     if ( this.state.status.text !== prevState.status.text && this.state.status.text !== '...' ) {
-      console.log('status changed')
       const statusBar = document.querySelector('.status')
+      statusBar.classList.remove('flash');
       statusBar.classList.add('flash');
-      setTimeout(()=>{
-        statusBar.classList.remove('flash');
-      }, 900)
+
+      
+      // setTimeout(debounce(function(){
+      //   // this func should be DEBOUNCED to 1 second
+      //   console.log('removing class: flash')
+      //   statusBar.classList.remove('flash');
+      // },  1000, {leading: true} ), 900)
     }
   }
 
