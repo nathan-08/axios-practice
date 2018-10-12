@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
 import "codemirror/lib/codemirror.css";
-import debounce from 'lodash.debounce';
 
 import "./button.css";
 import "./statusBar.css";
@@ -30,6 +29,12 @@ export default class App extends Component {
         }
       });
     };
+    this.removeFlash = () => {
+      window.timeout1 = setTimeout(()=>{
+        document.querySelector('.status').classList.remove('flash');
+        window.timeout1 = null;
+      },800)
+    }
   }
 
   componentDidMount() {
@@ -45,13 +50,8 @@ export default class App extends Component {
       const statusBar = document.querySelector('.status')
       statusBar.classList.remove('flash');
       statusBar.classList.add('flash');
-
-      
-      // setTimeout(debounce(function(){
-      //   // this func should be DEBOUNCED to 1 second
-      //   console.log('removing class: flash')
-      //   statusBar.classList.remove('flash');
-      // },  1000, {leading: true} ), 900)
+      if (!window.timeout1)
+        this.removeFlash()
     }
   }
 
